@@ -1,0 +1,28 @@
+name: matrix
+on: [push, workflow_dispatch]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            max-parallel: 2
+            matrix: 
+                version: ['18', '20', '4']
+                student: ['nuno', 'aurelien']
+        steps:
+        - name: test
+          run: date
+
+        - name: install nodejs
+          uses: actions/setup-node@v4
+          with:
+            node-version: ${{ matrix.version }}
+
+        - name: checkout
+          uses: actions/checkout@v4
+
+        - name: docu
+          run: npm install docusaurus
+
+        - name: ls
+          run: ls
